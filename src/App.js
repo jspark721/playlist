@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 let defaultStyle = {
@@ -66,15 +65,18 @@ class HoursCounter extends Component {
   render() {
     let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
       return songs.concat(eachPlaylist.songs)
-    }, [])
-
+    }, []);
+    let totalDuration = allSongs.reduce((sum, eachSong) => {
+      return sum + eachSong.duration
+    }, 0);
     return(
       <div style={{width: '40%', display: 'inline-block'}}>
-        <h2>{ allSongs.length } Hours</h2>
+        <h2>{ Math.round((totalDuration/ (1000*60)) % 60) } Hours</h2>
       </div>
     );
   }
 }
+
 
 class Filter extends Component {
   render() {
@@ -125,8 +127,7 @@ class App extends Component {
           <h1>Playlists by { this.state.serverData.user.name }</h1>
 
           <PlaylistCounter playlists= { this.state.serverData.user.playlists }/>
-          <HoursCounter />
-
+          <HoursCounter playlists= { this.state.serverData.user.playlists } />
           <Filter />
 
           <Playlist />
