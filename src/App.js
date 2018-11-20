@@ -117,9 +117,6 @@ class App extends Component {
     }
   }
   componentDidMount(){
-    setTimeout(() => {
-      this.setState({ serverData: fakeServerData})
-    }, 1000);
   }
   render() {
     let playlistToRender = this.state.serverData.user ? this.state.serverData.user.playlists
@@ -145,7 +142,7 @@ class App extends Component {
               <Playlist playlist={playlist} />
           )}
 
-        </div> : <h1>Loading...</h1>
+        </div> : <button>Login with Spotify</button>
         }
       </div>
     );

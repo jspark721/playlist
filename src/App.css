@@ -33,6 +33,27 @@ li {
   text-align: center;
 }
 
+button {
+  margin: 20px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  background: #1db954;
+  outline: 0;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  font-size: 1em;
+  letter-spacing: 2px;
+  font-weight: bolder;
+  border: 1px solid #1db954;
+  transition: all .5s ease;
+  box-shadow: 2px 2px 3px rgba(0,0,0, .3);
+}
+
+button:hover {
+  background-color: #20C95B;
+  transition: all .5s ease;
+}
+
 .filter-box {
   margin-bottom: 40px;
 }
