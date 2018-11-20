@@ -18,10 +18,37 @@ h2 {
   color: #CEEAF7;
 }
 
+h3 {
+  color: #FFFFFF;
+}
+
+
 ul {
   list-style-type: none;
+  padding: 0;
 }
 
 li {
   padding: 5px 0;
+  text-align: center;
+}
+
+.filter-box {
+  margin-bottom: 40px;
+}
+
+.filter-box input {
+  height: 20px;
+  width: 120px;
+  outline: 0;
+  border-radius: 5px;
+}
+
+.playlist-box {
+  color: #FFFFFF;
+  margin: 20px 10px;
+  height: 300px;
+  display: inline-block;
+  width: 20%;
+  border: 1px solid #FFFFFF;
 }

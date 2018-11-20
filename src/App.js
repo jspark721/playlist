@@ -24,7 +24,8 @@ let fakeServerData = {
           { title:'Happier', duration: 13560 },
           { title: 'Taki Taki', duration: 20000 },
           { title: 'thank u, next', duration: 70000},
-          { title: 'Without Me', duration: 50431}
+          { title: 'Without Me', duration: 50431},
+          { title: 'Nice For What', duration: 30401}
         ]
       },
       {
@@ -81,8 +82,9 @@ class HoursCounter extends Component {
 class Filter extends Component {
   render() {
     return(
-      <div>
+      <div className="filter-box">
         <img/>
+        <h3>Filter</h3>
         <input type="text" onKeyUp={event =>
           this.props.onTextChange(event.target.value)} />
       </div>
@@ -94,8 +96,7 @@ class Playlist extends Component {
   render() {
     let playlist = this.props.playlist
     return(
-      <div style={{...defaultStyle, width: '25%', display: 'inline-block'}}>
-        <img />
+      <div className="playlist-box">
         <h3>{playlist.name}</h3>
         <ul>
           { playlist.songs.map(song =>
