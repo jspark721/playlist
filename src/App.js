@@ -63,11 +63,15 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
+      serverData: {},
       filterString: ''
     }
   }
   componentDidMount(){
     let accessToken = new URLSearchParams(window.location.search).get('access_token')
+
+    if(!accessToken)
+      return;
 
     fetch('https://api.spotify.com/v1/me', {
       headers: { 'Authorization': 'Bearer ' + accessToken}
@@ -115,7 +119,12 @@ class App extends Component {
               <Playlist playlist={playlist} />
           )}
 
-        </div> : <button onClick={()=> window.location = 'http://localhost:8888/login' }>Login with Spotify</button>
+        </div> : <button onClick={()=> {
+          window.location = window.location.href.includes('localhost')
+          ? 'http://localhost:8888/login'
+          : 'https://react-playlist-app.herokuapp.com/'}}>
+            Login with Spotify
+          </button>
         }
       </div>
     );
