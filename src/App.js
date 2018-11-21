@@ -1,56 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-let defaultStyle = {
-  color: '#FFFFFF'
-}
-let fakeServerData = {
-  user: {
-    name: 'Julie',
-    playlists: [
-      {
-        name: 'My Favorites',
-        songs: [
-          { title:'Fire', duration: 13560 },
-          { title: 'Here', duration: 20000 },
-          { title: 'Walk Away', duration: 70000 },
-          { title: 'Mine', duration: 50431},
-          { title: 'Be Somebody', duration: 12048 }
-        ]
-      },
-      {
-        name: 'Top Hits',
-        songs: [
-          { title:'Happier', duration: 13560 },
-          { title: 'Taki Taki', duration: 20000 },
-          { title: 'thank u, next', duration: 70000},
-          { title: 'Without Me', duration: 50431},
-          { title: 'Nice For What', duration: 30401}
-        ]
-      },
-      {
-        name: 'Chill Music',
-        songs: [
-          { title:'Stuck', duration: 13560 },
-          { title: 'The Reason', duration: 20000 },
-          { title: 'East Side', duration: 70000 },
-          { title: 'Sleepless Nights', duration: 50431},
-          { title: 'Location', duration: 12048 }
-        ]
-      },
-      {
-        name: 'Tropical Vibes',
-        songs: [
-          { title:'Fire', duration: 13560 },
-          { title: 'Here', duration: 20000 },
-          { title: 'Walk Away', duration: 70000 },
-          { title: 'Mine', duration: 50431 },
-          { title: 'Be Somebody', duration: 12048 }
-        ]
-      }
-    ]
-  }
-}
 
 class PlaylistCounter extends Component {
   render() {
@@ -97,7 +47,8 @@ class Playlist extends Component {
     let playlist = this.props.playlist
     return(
       <div className="playlist-box">
-        <h3>{playlist.name}</h3>
+        <img className="cover-img" src={playlist.imageURL} alt="playlist image"/>
+        <h3 className="playlist-title">{playlist.name}</h3>
         <ul>
           { playlist.songs.map(song =>
             <li>{song.title}</li>
@@ -112,26 +63,48 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      serverData: {},
       filterString: ''
     }
   }
   componentDidMount(){
+    let accessToken = new URLSearchParams(window.location.search).get('access_token')
+
+    fetch('https://api.spotify.com/v1/me', {
+      headers: { 'Authorization': 'Bearer ' + accessToken}
+    }).then((response) => response.json())
+    .then(data => this.setState({
+      user: {
+        name: data.display_name
+      }
+    }))
+
+    fetch('https://api.spotify.com/v1/me/playlists', {
+      headers: { 'Authorization': 'Bearer ' + accessToken}
+    }).then((response) => response.json())
+    .then(data => this.setState({
+        playlists: data.items.map(item => ({
+            name: item.name,
+            imageURL: item.images[0].url,
+            songs:[]
+          }))
+      }))
   }
   render() {
-    let playlistToRender = this.state.serverData.user ? this.state.serverData.user.playlists
-      .filter(playlist =>
+    let playlistToRender =
+    this.state.user &&
+    this.state.playlists
+      ? this.state.playlists.filter(playlist =>
         playlist.name.toLowerCase().includes(
-          this.state.filterString.toLowerCase())
-      ) : []
+          this.state.filterString.toLowerCase()))
+      : []
     return (
       <div className="App">
-        {this.state.serverData.user ?
+        {this.state.user ?
         <div>
-          <h1>Playlists by { this.state.serverData.user.name }</h1>
+          <h1>Playlists by { this.state.user.name }</h1>
 
-          <PlaylistCounter playlists= { this.state.serverData.user.playlists }/>
-          <HoursCounter playlists= { this.state.serverData.user.playlists } />
+          <PlaylistCounter playlists= { playlistToRender }/>
+          <HoursCounter playlists= { playlistToRender } />
 
           <Filter onTextChange={text => {
               this.setState({filterString: text})
@@ -142,7 +115,7 @@ class App extends Component {
               <Playlist playlist={playlist} />
           )}
 
-        </div> : <button>Login with Spotify</button>
+        </div> : <button onClick={()=> window.location = 'http://localhost:8888/login' }>Login with Spotify</button>
         }
       </div>
     );

@@ -47,6 +47,7 @@ button {
   border: 1px solid #1db954;
   transition: all .5s ease;
   box-shadow: 2px 2px 3px rgba(0,0,0, .3);
+  cursor: pointer;
 }
 
 button:hover {
@@ -65,11 +66,20 @@ button:hover {
   border-radius: 5px;
 }
 
+.playlist-title{
+  font-size: 1em;
+}
 .playlist-box {
   color: #FFFFFF;
+  padding: 10px;
   margin: 20px 10px;
-  height: 300px;
   display: inline-block;
   width: 20%;
+  height: 300px;
   border: 1px solid #FFFFFF;
+}
+
+.cover-img {
+  width:200px;
+  height: 200px;
 }
